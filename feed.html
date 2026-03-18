@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Feed Social</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      margin: 0;
+      background: #e6ecf0;
+    }
+
+    /* FORM FIXO */
+    .form-container {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: white;
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    textarea {
+      width: 60%;
+      height: 50px;
+      padding: 10px;
+      resize: none;
+    }
+
+    button {
+      padding: 10px 15px;
+      cursor: pointer;
+      border: none;
+      background: #1da1f2;
+      color: white;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #0d8ddb;
+    }
+
+    /* FEED */
+    .feed {
+      margin-top: 100px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .post {
+      background: white;
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+    }
+
+    .username {
+      font-weight: bold;
+    }
+
+    .date {
+      font-size: 12px;
+      color: gray;
+    }
+
+    .post-text {
+      margin: 10px 0;
+    }
+
+    .cat {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .actions {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .like-btn {
+      background: #eee;
+      color: black;
+    }
+
+    .like-btn:hover {
+      background: #ddd;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- FORM -->
+  <div class="form-container">
+    <textarea id="texto" placeholder="O que você está pensando?"></textarea>
+    <button onclick="postar()">Postar</button>
+  </div>
+
+  <!-- FEED -->
+  <div class="feed" id="feed"></div>
+
+  <script>
+    let posts = [];
+
+    async function postar() {
+      const textoInput = document.getElementById('texto');
+      const texto = textoInput.value.trim();
+
+      if (!texto) return;
+
+      // Buscar imagem de gato
+      const res = await fetch('https://api.thecatapi.com/v1/images/search');
+      const data = await res.json();
+
+      const novoPost = {
+        data: new Date(),
+        usuario: "henrique",
+        avatar: "https://i.pravatar.cc/100",
+        texto: texto,
+        imagem: data[0].url,
+        likes: 0
+      };
+
+      posts.unshift(novoPost);
+
+      renderizar();
+      textoInput.value = '';
+    }
+
+    function curtir(index) {
+      posts[index].likes++;
+      atualizarLikes(index);
+    }
+
+    function atualizarLikes(index) {
+      document.getElementById(`likes-${index}`).textContent = posts[index].likes;
+    }
+
+    function renderizar() {
+      const feed = document.getElementById('feed');
+      feed.innerHTML = '';
+
+      posts.forEach((post, index) => {
+        const div = document.createElement('div');
+        div.classList.add('post');
+
+        div.innerHTML = `
+          <div class="user">
+            <img src="${post.avatar}">
+            <div>
+              <div class="username">${post.usuario}</div>
+              <div class="date">${new Date(post.data).toLocaleString()}</div>
+            </div>
+          </div>
+
+          <div class="post-text">${post.texto}</div>
+
+          <img class="cat" src="${post.imagem}">
+
+          <div class="actions">
+            <button class="like-btn" onclick="curtir(${index})">👍 Curtir</button>
+            <span id="likes-${index}">${post.likes}</span>
+          </div>
+        `;
+
+        feed.appendChild(div);
+      });
+    }
+  </script>
+
+</body>
+</html>
