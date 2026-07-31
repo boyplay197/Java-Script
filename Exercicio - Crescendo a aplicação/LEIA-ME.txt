@@ -1,0 +1,34 @@
+EXERCÍCIO - CRESCENDO A APLICAÇÃO
+
+Arquivos incluídos:
+- Autor.java
+- AutorTest.java
+- Artigo.java
+- ArtigoTest.java
+- Emprestimo.java
+- Livro.java
+- Main.java
+- Pessoa.java
+- Usuario.java
+
+O que foi feito:
+1. Autor recebeu o campo booleano 'usuario'.
+2. Main foi atualizado para usar o novo construtor de Autor.
+3. Foi criado Artigo com título, autor, gênero e publicado.
+4. Foram criados os testes unitários AutorTest e ArtigoTest.
+
+COMO COMPILAR O PROGRAMA:
+javac *.java
+
+COMO EXECUTAR:
+java Main
+
+COMO COMPILAR COM JUNIT:
+Coloque o arquivo junit-platform-console-standalone-1.14.0.jar nesta pasta e execute:
+javac -cp ".;junit-platform-console-standalone-1.14.0.jar" *.java
+
+COMO RODAR OS TESTES:
+java -jar junit-platform-console-standalone-1.14.0.jar --class-path . --scan-class-path
+
+OBSERVAÇÃO:
+O arquivo .jar do JUnit não foi incluído porque ele é uma dependência externa. Se você já possui o .jar usado anteriormente, basta copiá-lo para esta pasta.
