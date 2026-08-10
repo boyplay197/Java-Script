@@ -1,0 +1,20 @@
+Projeto Biblioteca Java - Strategy
+
+Implementação didática do padrão Strategy.
+
+Arquivos principais:
+- PublicavelInterface.java
+- EstrategiaPublicacao.java
+- EstrategiaPublicacaoLivro.java
+- EstrategiaPublicacaoArtigo.java
+- Autor.java
+- StrategyTest.java
+
+Compilação:
+javac -cp ".;junit-platform-console-standalone-1.14.4.jar" *.java
+
+Execução:
+java Main
+
+Testes:
+java -jar junit-platform-console-standalone-1.14.4.jar --class-path . --scan-class-path
